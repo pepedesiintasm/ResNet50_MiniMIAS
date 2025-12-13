@@ -10,8 +10,9 @@ from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 # ======================
 DATA_DIR = "/Users/pepedesintas/Desktop/TFG/CBIS_DDSM/processed"
 IMG_SIZE = (224, 224)
+# Probar BATCH de 32 (si no peta la RAM) -> menos steps = menos tiempo
 BATCH_SIZE = 16
-EPOCHS = 25
+EPOCHS = 10
 SEED = 42
 
 # ======================
@@ -53,6 +54,7 @@ test_ds  = test_ds.cache().prefetch(AUTOTUNE)
 # ======================
 # DATA AUGMENTATION
 # ======================
+# Se puede reducir para CBIS, es más grande que MIAS, no necesita tanta DA
 data_augmentation = tf.keras.Sequential([
     layers.RandomFlip("horizontal"),
     layers.RandomRotation(0.05),
@@ -74,7 +76,7 @@ base_model = ResNet50(
 )
 
 # Congelar primeras capas
-base_model.trainable = True
+base_model.trainable = True #para que vaya más rápido podemos congelar y solo entrenar cabeza
 for layer in base_model.layers[:100]:
     layer.trainable = False
 
