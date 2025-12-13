@@ -78,7 +78,11 @@ x = preprocess_input(x) #normalizes using standard ResNet50 things
 
 
 # Convolutional part of the ResNet50 (all layers)
-base_model = ResNet50(include_top=False, weights="imagenet", input_tensor=x)
+base_model = ResNet50(
+    include_top=False,
+    weights="imagenet",
+    input_tensor=x
+)
 #Freezes the weights of ResNet50
 #They are not modified during training
 #Prevents overfitting (ideal with a small dataset)
